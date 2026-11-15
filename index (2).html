@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tindahan Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Tindahan Tracker</h1>
+    <p class="sub">Inventory, sales, and profit for a small store</p>
+  </header>
+
+  <nav class="tabs" aria-label="Sections">
+    <button type="button" class="tab active" data-view="sell">Sell</button>
+    <button type="button" class="tab" data-view="inventory">Inventory</button>
+    <button type="button" class="tab" data-view="expenses">Expenses</button>
+    <button type="button" class="tab" data-view="reports">Reports</button>
+  </nav>
+
+  <main>
+    <!-- VIEW 1: SELL -->
+    <section id="view-sell" class="view">
+      <div class="product-grid" id="product-grid"></div>
+
+      <div class="panel">
+        <h2>Current sale</h2>
+        <ul class="cart-list" id="cart-list"></ul>
+        <div class="total-row">
+          <span>Total</span>
+          <strong id="cart-total">&#8369;0.00</strong>
+        </div>
+        <div class="actions">
+          <button type="button" id="btn-clear-cart">Clear</button>
+          <button type="button" id="btn-checkout" class="primary">Complete sale</button>
+        </div>
+        <p class="msg" id="sell-msg" role="status"></p>
+      </div>
+    </section>
+
+    <!-- VIEW 2: INVENTORY -->
+    <section id="view-inventory" class="view" hidden>
+      <div class="panel">
+        <h2 id="form-title">Add a product</h2>
+        <form id="product-form" autocomplete="off">
+          <input type="hidden" id="f-id">
+          <label for="f-name">Product name</label>
+          <input type="text" id="f-name" placeholder="Lucky Me Pancit Canton" maxlength="60">
+
+          <div class="row">
+            <div>
+              <label for="f-cost">Cost (&#8369;)</label>
+              <input type="number" id="f-cost" inputmode="decimal" step="0.01" min="0" placeholder="11">
+            </div>
+            <div>
+              <label for="f-price">Selling price (&#8369;)</label>
+              <input type="number" id="f-price" inputmode="decimal" step="0.01" min="0" placeholder="14">
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="f-stock">Stock</label>
+              <input type="number" id="f-stock" inputmode="numeric" step="1" min="0" placeholder="24">
+            </div>
+            <div>
+              <label for="f-reorder">Warn me at</label>
+              <input type="number" id="f-reorder" inputmode="numeric" step="1" min="0" placeholder="6">
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="button" id="btn-cancel-edit">Cancel</button>
+            <button type="submit" class="primary" id="btn-save">Save product</button>
+          </div>
+          <p class="msg" id="inv-msg" role="status"></p>
+        </form>
+      </div>
+
+      <h2 class="list-title">Your products</h2>
+      <p class="note">The first products are samples. Edit or delete them and add your own.</p>
+      <ul class="inv-list" id="inventory-list"></ul>
+    </section>
+
+    <!-- VIEW 3: EXPENSES -->
+    <section id="view-expenses" class="view" hidden>
+      <div class="panel">
+        <h2>Add an expense</h2>
+        <p class="note">Rent, electricity, transport, wages. Do not add the cost of the goods you sell. That is already counted in your profit.</p>
+        <form id="expense-form" autocomplete="off">
+          <label for="e-label">What was it for?</label>
+          <input type="text" id="e-label" placeholder="Electricity bill" maxlength="60">
+          <label for="e-amount">Amount (&#8369;)</label>
+          <input type="number" id="e-amount" inputmode="decimal" step="0.01" min="0" placeholder="850">
+          <div class="actions">
+            <button type="submit" class="primary" id="btn-add-expense">Save expense</button>
+          </div>
+          <p class="msg" id="exp-msg" role="status"></p>
+        </form>
+      </div>
+
+      <div class="stat month-stat">
+        <span class="stat-label">Expenses this month</span>
+        <strong id="exp-month">&#8369;0.00</strong>
+      </div>
+
+      <h2 class="list-title">Recent expenses</h2>
+      <ul class="plain-list" id="expenses-list"></ul>
+    </section>
+
+    <!-- VIEW 4: REPORTS -->
+    <section id="view-reports" class="view" hidden>
+      <div class="period-bar" role="group" aria-label="Time range">
+        <button type="button" class="period active" data-period="today">Today</button>
+        <button type="button" class="period" data-period="week">7 days</button>
+        <button type="button" class="period" data-period="month">Month</button>
+        <button type="button" class="period" data-period="all">All</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="stat-label">Sales</span><strong id="st-sales">&#8369;0.00</strong></div>
+        <div class="stat"><span class="stat-label">Gross profit</span><strong id="st-profit">&#8369;0.00</strong></div>
+        <div class="stat"><span class="stat-label">Expenses</span><strong id="st-expenses">&#8369;0.00</strong></div>
+        <div class="stat net"><span class="stat-label">Net profit</span><strong id="st-net">&#8369;0.00</strong></div>
+        <div class="stat"><span class="stat-label">Items sold</span><strong id="st-items">0</strong></div>
+        <div class="stat"><span class="stat-label">Low stock</span><strong id="st-low">0</strong></div>
+      </div>
+      <p class="note formula">Net profit = sales &minus; cost of goods sold &minus; expenses.</p>
+
+      <h2 class="list-title">Best sellers</h2>
+      <ul class="plain-list" id="best-list"></ul>
+
+      <h2 class="list-title">Low stock</h2>
+      <ul class="plain-list" id="low-list"></ul>
+
+      <h2 class="list-title" id="sales-title">Sales</h2>
+      <ul class="plain-list" id="sales-list"></ul>
+
+      <div class="actions spread">
+        <button type="button" id="btn-export">Export sales (CSV)</button>
+        <button type="button" id="btn-reset" class="danger">Reset all data</button>
+      </div>
+      <p class="msg" id="rep-msg" role="status"></p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

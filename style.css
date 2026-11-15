@@ -1,0 +1,193 @@
+/* Tindahan Tracker styles.
+   Colors live in the variables below so light and dark mode share one design. */
+:root {
+  --bg: #f1f5f3;
+  --surface: #ffffff;
+  --ink: #14201a;
+  --muted: #58675f;
+  --line: #d6dfda;
+  --accent: #0f7a55;
+  --accent-ink: #ffffff;
+  --accent-soft: #dff0e8;
+  --warn-bg: #fdf0d5;
+  --warn-ink: #7a4a00;
+  --danger: #b3261e;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1613;
+    --surface: #18211d;
+    --ink: #e7efe9;
+    --muted: #9aaba1;
+    --line: #2b3832;
+    --accent: #3fb784;
+    --accent-ink: #08170f;
+    --accent-soft: #1d3a2e;
+    --warn-bg: #3a2c0d;
+    --warn-ink: #f2cf84;
+    --danger: #ff8a80;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 720px;
+  margin-inline: auto;
+  padding: 16px 16px 48px;
+}
+
+h1 { font-size: 26px; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 18px; margin: 0 0 12px; }
+.sub { margin: 2px 0 16px; color: var(--muted); }
+
+/* Tabs */
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.tab { flex: 1; }
+.tab.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* Buttons and inputs */
+button, input {
+  font: inherit;
+  color: inherit;
+}
+button {
+  min-height: 44px;
+  padding: 8px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+button:active { transform: scale(0.98); }
+button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+button.danger { color: var(--danger); border-color: var(--danger); }
+
+label { display: block; font-size: 14px; color: var(--muted); margin: 10px 0 4px; }
+input[type="text"], input[type="number"] {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 16px;
+}
+.row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+.actions.spread { justify-content: space-between; margin-top: 24px; }
+.msg { min-height: 1.5em; margin: 10px 0 0; font-size: 14px; color: var(--accent); }
+.msg.error { color: var(--danger); }
+.note, .empty { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+.list-title { margin-top: 24px; }
+
+/* Sell: product buttons */
+.product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.product {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+  padding: 12px;
+  min-width: 0;
+}
+.p-name { font-weight: 600; overflow-wrap: anywhere; }
+.p-price { color: var(--accent); font-weight: 600; }
+.p-stock { font-size: 13px; color: var(--muted); }
+.product.out { opacity: 0.55; }
+
+/* Sell: cart */
+.cart-list, .plain-list, .inv-list { list-style: none; margin: 0; padding: 0; }
+.cart-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+.c-name { overflow-wrap: anywhere; }
+.qty { display: flex; align-items: center; gap: 8px; }
+.qty button { min-height: 36px; min-width: 36px; padding: 0; }
+.c-sub { min-width: 72px; text-align: right; font-variant-numeric: tabular-nums; }
+.total-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; font-size: 20px; }
+
+/* Inventory list */
+.inv-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.inv-item.low { border-color: var(--warn-ink); }
+.inv-name { font-weight: 600; overflow-wrap: anywhere; }
+.inv-meta { color: var(--muted); font-size: 14px; margin: 2px 0 10px; }
+.badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+}
+.inv-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.inv-actions input { width: 72px; }
+
+/* Reports */
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
+.stat-label { display: block; font-size: 13px; color: var(--muted); }
+.stat strong { font-size: 22px; font-variant-numeric: tabular-nums; }
+.plain-list li { padding: 10px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.sale-top { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+.sale-items { color: var(--muted); font-size: 14px; }
+
+@media (min-width: 560px) {
+  .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  button:active { transform: none; }
+}
+
+/* Version 2 additions: 4 tabs, period buttons, expenses, net profit */
+.tab { padding-inline: 4px; font-size: 15px; }
+.period-bar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+.period { padding-inline: 4px; min-height: 40px; font-size: 15px; }
+.period.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.stat.net { border-color: var(--accent); }
+.stat.net strong { color: var(--accent); }
+.stat strong.loss { color: var(--danger); }
+.formula { margin-top: 10px; }
+.month-stat { margin-top: 16px; }
+.exp-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+}
+.exp-line button { min-height: 36px; min-width: 36px; padding: 0; }
+@media (min-width: 560px) {
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
